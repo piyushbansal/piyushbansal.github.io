@@ -26,7 +26,7 @@ This is being done via a new technique that I devised and implemented that I cal
                 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tweets&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
                         &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;I gave my code to someone who also wanted to work on tweets (for some sort of tweet clustering based on named entities) , and hence needed the tweet database. I question that I got asked was&amp;nbsp;-&lt;/p&gt;
+&lt;p&gt;I gave my code to someone who also wanted to work on tweets (for some sort of tweet clustering based on named entities) , and hence needed the tweet database. The question that I got asked was&amp;nbsp;-&lt;/p&gt;
 &lt;!--  --&gt;
 &lt;blockquote&gt;
 What is this &lt;cite&gt;yield&lt;/cite&gt; keyword doing here ?&lt;/blockquote&gt;
