@@ -121,7 +121,8 @@ The benefit of having a &lt;cite&gt;catch-all&lt;/cite&gt; function is that it d
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;fibonacci&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;35&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
 &lt;span class="mi"&gt;14930352&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And obviously it&amp;#8217;s much faster than the one I wrote in &lt;a class="reference external" href="http://piyushbansal.github.io/python-generators-and-iterables.html"&gt;previous blog post about&amp;nbsp;generators&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;And obviously it&amp;#8217;s much faster than the one I wrote in &lt;a class="reference external" href="http://piyushbansal.github.io/python-generators-and-iterables.html"&gt;previous blog post about generators&lt;/a&gt; since it is &lt;cite&gt;O(n)&lt;/cite&gt; and the one written with generators was exponentially ordered. This caching function also makes all kind of &lt;cite&gt;Dynamic Programming&lt;/cite&gt; solutions to be implemented in python just by decorating the intended function. Now that is some syntactic sugar&amp;nbsp;!&lt;/p&gt;
+&lt;p&gt;Thanks for&amp;nbsp;reading!&lt;/p&gt;
 &lt;/div&gt;
 </summary><category term="python"></category></entry><entry><title>Python generators and iterables</title><link href="/python-generators-and-iterables.html" rel="alternate"></link><updated>2014-03-20T17:30:00+05:30</updated><author><name>Piyush</name></author><id>tag:,2014-03-20:python-generators-and-iterables.html</id><summary type="html">&lt;p&gt;Last week, I had written a code to query a mongodb database for some tweets that were saved in it.
 I was working towards a project that dealt with extracting semantic information from hashtags like &lt;cite&gt;#IluvJKRowling&lt;/cite&gt; and &lt;cite&gt;#Penisland&lt;/cite&gt;.
