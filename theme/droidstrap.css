@@ -16,6 +16,10 @@ header h1 {
     line-height: 1.4em;
 }
 
+img {
+    width:60%;
+}
+
 h2.small {
     font-size: 1.3em;
     line-height: 1.4em;
