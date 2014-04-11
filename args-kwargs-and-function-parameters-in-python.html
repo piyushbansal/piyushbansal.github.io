@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="*args, **kwargs and function parameters in python., Piyush Bansal, One of the nodes in the interwebs.">
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="./theme/droidstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Sans+Mono|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+        
+                <title>*args, **kwargs and function parameters in python. // Piyush Bansal // One of the nodes in the interwebs.</title>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width">
+            </head>
+
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="fake"> </div>
+        <div class="container">
+            <div class="row">
+                <header class="span3">
+                    <h1 class="blogtitle">
+                        <a href="."><img id="profileimg" src="http://www.gravatar.com/avatar/016de9d0b01639f12a23180f8cb2998d?s=500" alt="Piyush Bansal" ></a>Piyush Bansal
+                    </h1>
+                    <nav>
+                        <ul>
+                                                            <li><a href="/">Home</a></li>
+                                                            <li><a href="/pages/hello-i-am-piyush.html">About</a></li>
+                                                                                                                                            </ul>
+                    </nav>
+                </header>
+
+                    <section class="span7 offset1 content">
+        <article class="blogpost">
+            <header>
+                <h1><cite>*args</cite>, <cite>**kwargs</cite> and function parameters in&nbsp;python.</h1>
+                <p class="postdate" title="2014-03-25T12:30:00">- Posted Mar 25, 2014</p>
+            </header>
+            <div class='article-content'>
+                <p>I come from a C/C++ background, so when I first started programming in python and saw a code that looked somewhat like this&nbsp;-</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">first_param</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+  <span class="c"># Do something with the arguments here.</span>
+</pre></div>
+<p>I was thinking to myself - <em>Ah! pointers</em>. And when I saw something like&nbsp;this</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">first_param</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  <span class="c"># Do something with the arguments here.</span>
+</pre></div>
+<p>I was again like - <a class="reference external" href="https://www.youtube.com/watch?v=99E9fDgZZuE">*Ah! Double Pointers*</a>. I was obviously wrong, since after a few moments I realised that python doesn&#8217;t pass by reference (or pass by value, it&#8217;s a different evaluation strategy which is sometimes called <cite>Pass by object</cite>). So, these can&#8217;t be&nbsp;pointers.</p>
+<p>But let us stop here for a moment (and digress? No, not really!) and try to see what <cite>Pass by object</cite> really means. Look at this piece of code and predict what the output should be&nbsp;-</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">make_sandwich</span><span class="p">(</span><span class="n">bread</span><span class="p">):</span>
+<span class="o">...</span>   <span class="n">bread</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;eggs&#39;</span><span class="p">)</span>
+<span class="o">...</span>   <span class="n">bread</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;lettuce&#39;</span><span class="p">,</span> <span class="s">&#39;mayo&#39;</span><span class="p">,</span> <span class="s">&#39;chicken&#39;</span><span class="p">,</span> <span class="s">&#39;mayo&#39;</span><span class="p">])</span>
+<span class="o">...</span>   <span class="c"># Damn it set, I wanted extra mayo :|</span>
+<span class="o">...</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">loaf</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;wheat&#39;</span><span class="p">,</span> <span class="s">&#39;soda&#39;</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">make_sandwich</span><span class="p">(</span><span class="n">loaf</span><span class="p">)</span>
+</pre></div>
+<p>If python passed everything by value, the value of <cite>loaf</cite> shouldn&#8217;t have changed, and <cite>loaf</cite> should have been equal to <cite>set([&#8216;wheat&#8217;,&#8217;soda&#8217;])</cite>.If instead python passed everything by reference the value of <cite>loaf</cite> should have been <cite>set([&#8216;lettuce&#8217;,&#8217;mayo&#8217;,&#8217;chicken&#8217;])</cite>. But guess what, the value of <cite>loaf</cite> is</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">loaf</span>
+<span class="nb">set</span><span class="p">([</span><span class="s">&#39;eggs&#39;</span><span class="p">,</span> <span class="s">&#39;wheat&#39;</span><span class="p">,</span> <span class="s">&#39;soda&#39;</span><span class="p">])</span>
+</pre></div>
+<p>What happens is, <cite>bread</cite> becomes a new name for the same value <cite>set([&#8216;wheat&#8217;, &#8216;soda&#8217;])</cite> that <cite>loaf</cite> is a name for. When it mutates that value, <cite>loaf</cite> sees the change. When it rebinds <cite>bread</cite> to a different value, <cite>loaf</cite> is still naming the original value. So, it prints out <cite>set([&#8216;eggs&#8217;, &#8216;wheat&#8217;, &#8216;soda&#8217;])</cite>. You can read more about it in <a class="reference external" href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#other-languages-have-variables">this</a> wonderfully written article by <em>David Goodger</em>.</p>
+<p>Okay, coming back to our original course of discussion&nbsp;-</p>
+<!--  -->
+<blockquote>
+What do the <cite>*args</cite> and <cite>**kwargs</cite> keywords do ?</blockquote>
+<div class="section" id="variable-length-argument-lists">
+<h2>Variable Length Argument&nbsp;Lists</h2>
+<p>How would you write a function in python that accepts an arbitrary number of arguments ? This is exactly where <cite>*args</cite> and <cite>**kwargs</cite> come into picture. <cite>*args</cite> (for lack of a better variable name, programmers usually go with choice of <cite>args</cite>, you can use <cite>*anything</cite>) is used to pass a <strong>non keyworded</strong> variable-length argument list. Let us look at an example&nbsp;-</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">hello_args</span><span class="p">(</span><span class="n">formal_arg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="o">...</span>   <span class="k">print</span> <span class="s">&#39;Positional arg: </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="n">formal_arg</span>
+<span class="o">...</span>   <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+<span class="o">...</span>     <span class="k">print</span> <span class="s">&#39;Additional arg: </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="n">arg</span>
+<span class="o">...</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hello_args</span><span class="p">(</span><span class="s">&#39;arg1&#39;</span><span class="p">,</span> <span class="s">&#39;argument&#39;</span><span class="p">,</span> <span class="s">&#39;another argument&#39;</span><span class="p">,</span> <span class="s">&#39;yet another argument&#39;</span><span class="p">,</span>
+<span class="o">...</span>     <span class="s">&#39;as many arguments as you want&#39;</span><span class="p">)</span>
+</pre></div>
+<p>Here is the output&nbsp;:</p>
+<pre class="literal-block">
+Positional arg: arg1
+Additional arg: argument
+Additional arg: another argument
+Additional arg: yet another argument
+Additional arg: as many arguments as you want
+</pre>
+<p>Similarly <cite>**kwargs</cite> (or <cite>**anything</cite>) is used to pass a <strong>keyworded</strong> variable-length argument list. Now what do I mean by <strong>keyworded</strong> - anything that has a collection of <cite>key:value</cite> pairs, a <em>mapping</em> basically, like a <strong>dictionary</strong>. Here is a simple example to explain <cite>**kwargs</cite> usage&nbsp;-</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">hello_kwargs</span><span class="p">(</span><span class="n">formal_arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="o">...</span>   <span class="k">print</span> <span class="s">&#39;Positional arg: </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="n">formal_arg</span>
+<span class="o">...</span>   <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+<span class="o">...</span>     <span class="k">print</span> <span class="s">&#39;Another key-value pair: </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">arg</span><span class="p">])</span>
+<span class="o">...</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hello_kwargs</span><span class="p">(</span><span class="s">&#39;arg1&#39;</span><span class="p">,</span> <span class="n">argument</span><span class="o">=</span><span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="n">another_argument</span><span class="o">=</span><span class="s">&#39;another value&#39;</span><span class="p">,</span>
+<span class="o">...</span>     <span class="n">yet_another_argument</span><span class="o">=</span><span class="s">&#39;yet another value&#39;</span><span class="p">)</span>
+</pre></div>
+<p>Here is the output&nbsp;:</p>
+<pre class="literal-block">
+Positional arg: arg1
+Another key-value pair: argument: value
+Another key-value pair: another_argument: another value
+Another key-value pair: yet_another_argument: yet another value
+</pre>
+</div>
+<div class="section" id="unpacking-argument-lists">
+<h2>Unpacking Argument&nbsp;Lists</h2>
+<p>In order to be able to use <cite>*args</cite> and <cite>**kwargs</cite> when calling functions, it is important to understand a simple yet important concept - <cite>Unpacking Argument List</cite>. This piece of code shall make the unpacking&nbsp;clear.</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c"># Normal call with separate arguments.</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>    <span class="c"># Call with arguments unpacked from list.</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</pre></div>
+<p>Similarly one can <strong>unpack</strong> the arguments from a dictionary - this time using <cite>**</cite> rather than using <cite>*</cite> as in previous&nbsp;example.</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">make_sandwich</span><span class="p">(</span><span class="n">bread</span><span class="o">=</span><span class="s">&#39;brown&#39;</span><span class="p">,</span> <span class="n">cheese</span><span class="o">=</span><span class="s">&#39;raw&#39;</span><span class="p">,</span> <span class="n">lettuce</span><span class="o">=</span><span class="s">&#39;fresh&#39;</span><span class="p">,</span> <span class="n">meat</span><span class="o">=</span><span class="s">&#39;extra&#39;</span><span class="p">):</span>
+<span class="o">...</span>  <span class="k">print</span> <span class="s">&#39;I am making a super tasty sandwich for you !&#39;</span>
+<span class="o">...</span>  <span class="k">print</span> <span class="s">&#39;You asked for </span><span class="si">%s</span><span class="s"> bread, there you go !&#39;</span><span class="o">%</span><span class="n">bread</span>
+<span class="o">...</span>  <span class="k">print</span> <span class="s">&#39;You shall have </span><span class="si">%s</span><span class="s"> cheese, </span><span class="si">%s</span><span class="s"> lettuce and </span><span class="si">%s</span><span class="s"> meat.&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cheese</span><span class="p">,</span> <span class="n">lettuce</span><span class="p">,</span>
+<span class="o">...</span>      <span class="n">meat</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">order</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;bread&#39;</span><span class="p">:</span> <span class="s">&#39;parmesan-oregano&#39;</span><span class="p">,</span> <span class="s">&#39;cheese&#39;</span><span class="p">:</span> <span class="s">&#39;toasted&#39;</span><span class="p">,</span>
+<span class="o">...</span>     <span class="s">&#39;lettuce&#39;</span><span class="p">:</span> <span class="s">&#39;fresh&#39;</span><span class="p">,</span> <span class="s">&#39;meat&#39;</span><span class="p">:</span> <span class="s">&#39;extra&#39;</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">make_sandwich</span><span class="p">(</span><span class="o">**</span><span class="n">order</span><span class="p">)</span>    <span class="c"># We&#39;re passing an unpacked dictionary here.</span>
+</pre></div>
+<p>Here is your sandwich, erm&#8230; output, I&nbsp;mean.</p>
+<pre class="literal-block">
+I am making a super tasty sandwich for you !
+You asked for parmesan-oregano bread, there you go !
+You shall have toasted cheese, fresh lettuce and extra meat
+</pre>
+<!--  -->
+<blockquote>
+Note that python allows usage of <cite>*args</cite> and <cite>**kwargs</cite> only in a specific order. All positional arguments come before <cite>*args</cite>, and <cite>*args</cite> comes before <cite>**kwargs</cite>.</blockquote>
+</div>
+<div class="section" id="a-complex-example-using-args-and-kwargs">
+<h2>A complex example using <cite>*args</cite> and <cite>**kwargs</cite></h2>
+<p>This example requires that you know what <a class="reference external" href="https://wiki.python.org/moin/PythonDecorators">decorators</a> are, and how they&#8217;re used in python. Since decorators are kind of an interesting syntactic sugar constructs, I will write a post about them as well, soon. Now, let us write a function that accepts all arguments - such a function is called a <cite>catch-all</cite> function. We&#8217;re then going to use this function as a memoise function that implements caching.
+The benefit of having a <cite>catch-all</cite> function is that it doesn&#8217;t depend on underlying function&#8217;s definition (arguments, I mean), it has one job - to cache, and that it will for any type of functions that accepts whatever number of whatever type of arguments&nbsp;!</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="k">def</span> <span class="nf">memoize</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="sd">&quot;&quot;&quot;Memoize function f.&quot;&quot;&quot;</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">memoizer</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cache</span><span class="p">:</span>
+    <span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="k">return</span> <span class="n">memoizer</span>
+</pre></div>
+<p>And that&#8217;s it. Notice the relative position of <cite>*args</cite> and <cite>*kwargs</cite> in the above function. Let us try and write a <a class="reference external" href="http://en.wikipedia.org/wiki/Fibonacci_number">fibonacci</a> function that returns nth fibonacci&nbsp;number.</p>
+<div class="highlight"><pre><span class="nd">@memoize</span>
+<span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span><span class="o">==</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span><span class="o">==</span><span class="mi">1</span> <span class="k">else</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fibonacci</span><span class="p">(</span><span class="mi">35</span><span class="p">):</span>
+<span class="mi">14930352</span>
+</pre></div>
+<p>And obviously it&#8217;s much faster than the one I wrote in <a class="reference external" href="http://piyushbansal.github.io/python-generators-and-iterables.html">previous blog post about generators</a>  since the one written with generators didn&#8217;t cache the previously computed values. Say you wanted a list of first <cite>n</cite> fibonacci numbers, the function written with generators in previous blog post would recompute lower fibonacci values each time, rather than using those already computed values from cache. This is the soul of a set of solutions referred to as <cite>Dynamic Programming</cite>. This caching function makes all kind of <cite>Dynamic Programming</cite> solutions easily implementable in python; you can do it just by decorating the intended function. Now that <span class="caps">IS</span> some syntactic sugar&nbsp;!</p>
+<p>Thanks for&nbsp;reading!</p>
+</div>
+
+            </div>
+        </article>
+
+        <p class="article-meta">
+            &ndash;
+            Posted in <a href="./category/code.html">Code</a>
+                            with tags                     <a href="./tag/python.html">python</a>
+                                    </p>
+
+                    <div id="comments">
+                <h2 class="space-above">Comments</h2>
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    var disqus_identifier = "args-kwargs-and-function-parameters-in-python.html";
+                    (function() {
+                        var dsq = document.createElement('script');
+                        dsq.type = 'text/javascript';
+                        dsq.async = true;
+                        dsq.src = 'http://piyushbansal93.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view <a href="http://disqus.com/?ref_noscript">comments</a>.</noscript>
+            </div>
+         
+    </section>
+
+            </div>
+            <div class="row">
+                <footer class="offset4 span7">
+                    <p>&copy; Piyush Bansal &ndash;
+                        Built with <a href="https://github.com/jamescooke/droidstrap">Droidstrap theme</a>
+                        for <a href="http://blog.getpelican.com/">Pelican</a>
+                    </p>
+                    <p>Licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
+                </footer>
+        </div>
+
+            <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        try {
+            var pageTracker = _gat._getTracker("UA-49141589-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+    </script>
+    </body>
+</html>
